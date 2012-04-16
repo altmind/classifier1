@@ -94,7 +94,7 @@ namespace classifier1
                 myOleDbCommand.CommandText = "SELECT TOP " + (int)numericUpDown3.Value + " Recept, Content, ReceptDescription,DishType FROM tblMain";
                 myOleDbDataReader = myOleDbCommand.ExecuteReader();
                 outputFile = new StreamWriter(File.OpenWrite(arg.Item2));
-                outputFile.WriteLine(totalRows + " " + wordsOrder.Count + " 1");
+                outputFile.WriteLine(totalRows + " " + wordsOrder.Count + " " + outputValues.Count);
                 i = 0;
                 while (myOleDbDataReader.Read())
                 {
@@ -214,7 +214,15 @@ namespace classifier1
                     }
                 }
                 fileStream.WriteLine();
-                fileStream.WriteLine(outputValues[dishType] + " ");
+                long correctIdx = outputValues[dishType];
+                for (int i = 0; i < outputValues.Count; i++ )
+                {
+                    if (i == correctIdx)
+                        fileStream.Write("1 ");
+                    else
+                        fileStream.Write("0 ");
+                }
+                fileStream.WriteLine(" ");
             }
 
         }
